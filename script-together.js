@@ -351,7 +351,7 @@ function dataLoaded(err, rows, stations, bos, cam, som, bro){
          d3.selectAll('.station_dot').style('fill', 'black');
 
          var e = document.getElementById("ddmenu");
-         var station_name = e.options[e.selectedIndex].text.replace(/\s\.\//g, '');
+         var station_name = e.options[e.selectedIndex].text.replace(/\s\.\/\1\2\3\4\5\6\7\8\9\0\-/g, '');
          d3.selectAll('.station_dot').select('#'+station_name).style('fill', 'red');
 
         selectStation(id);
