@@ -4,7 +4,7 @@
 
 var w = d3.select('.plot').node().clientWidth,
     h = d3.select('.plot').node().clientHeight;
-
+    red = "rgb(255,0,0)"
 
 //dispatcher
 var dispatcherStation = d3.dispatch('getarray', 'getstationid');
@@ -12,7 +12,7 @@ var dispatcherStation = d3.dispatch('getarray', 'getstationid');
 
 //Module
 var stationChart = d3.StationChart()
-    .width(350).height(300)
+    .width(400).height(500)
     .margin([15,0,10,10])
     //.barWidth(20)
 
@@ -48,7 +48,7 @@ var width = d3.select('#plot').node().clientWidth,
     centered, mapped_trips,
     zoomed = false,
     switch_a = false,
-    rad =2;
+    rad = 3;
 
 var selected_station,
     trips_from,
@@ -63,8 +63,7 @@ var tri = [{"x":-rad/3, "y":-5*rad/2}, {"x":rad/3,"y":-5*rad/2}, {"x":0,"y":-7*r
 
 
 //SVG FOR MAP
-var svg = d3.select( "#plot" )
-    .append( "svg" )
+var svg = d3.select( "#svg" )
     .attr( "width", width )
     .attr( "height", height );
 
@@ -79,9 +78,9 @@ var g = svg.append( "g" );
 
 //PROJECTION
 var albersProjection = d3.geo.albers()
-    .scale( 260000 )
+    .scale( 267000 )
     .rotate( [71.087,0] )
-    .center( [0, 42.33] )
+    .center( [0, 42.357] )
     .translate( [width/2,height/2] );
 
 //DRAWING THE PATHS OF geoJSON OBJECTS
@@ -129,22 +128,22 @@ function draw_triangles(array, stations, longlat, start_boolean) {
             //var atan = Math.atan( (slope) )
 
             var quad_shift, angle;
-            if (station[0] < xy[0] && station[1] < xy[1]) {
+            if (station[0] <= xy[0] && station[1] <= xy[1]) {
                 angle = Math.atan(slope1);
                 quad_shift = angle;
                 //console.log(angle*180/Math.PI+' is angle in quad 2');
             }
-            else if (station[0] > xy[0] && station[1] < xy[1]) {
+            else if (station[0] >= xy[0] && station[1] <= xy[1]) {
                 angle = Math.atan((slope1));
                 quad_shift = angle;
                 //console.log(angle*180/Math.PI+' is angle in quad 3');
             }
-            else if (station[0] < xy[0] && station[1] > xy[1]) {
+            else if (station[0] <= xy[0] && station[1] >= xy[1]) {
                 angle = Math.atan((slope1));
                 quad_shift = Math.PI + angle;
                 //console.log(angle*180/Math.PI+' is angle in quad 1');
             }
-            else if (station[0] > xy[0] && station[1] > xy[1]) {
+            else if (station[0] >= xy[0] && station[1] >= xy[1]) {
                 angle = Math.atan((xy[1] - station[1]) / (station[0] - xy[0]));
                 quad_shift = (Math.PI / 2) + (Math.PI - angle) + Math.PI;
                 //console.log(angle*180/Math.PI+' is angle in quad 4');
@@ -152,19 +151,23 @@ function draw_triangles(array, stations, longlat, start_boolean) {
             else {
                 console.log('didnt work');
             }
-            var degrees = quad_shift * 180 / (Math.PI)
+
+            var degrees;
+            degrees = quad_shift * 180 / (Math.PI) + 180;
 
             //console.log(d.id+', '+slope+', '+atan+', '+rot_ex()+', '+degr);
             if (start_boolean==false) {
                 console.log('ending at')
+                degrees = quad_shift * 180 / (Math.PI);
                 return 'translate(' + xy[0] + ', ' + xy[1] + ') rotate (' + degrees + ')'
             } else if (start_boolean==true) {
                 console.log('starting at')
+                degrees = quad_shift * 180 / (Math.PI) + 180;
                 return 'translate(' + station[0] + ', ' + station[1] + ') rotate (' + degrees + ')'
             } else { console.log('return didnt happen') }
         })
-        .attr("stroke", "#FFFF66")
-        .attr("stroke-width", rad / 2);
+        .attr("stroke", red)
+        .attr("stroke-width", 1.5);
 
 
 } //end draw triangles
@@ -207,7 +210,7 @@ function dataLoaded(err, rows, stations, bos, cam, som, bro){
         tripsByTimeEnd = cfEnd.dimension(function(d){return d.startTimeT;});
 
 
-    /*-----------------------------functions (by Muhe)------------------------------*/
+    /*-----------------------------functions------------------------------*/
     //nest and crossfilter data when a station is selected as start
     function selectStation(id){
         tripsByStart1.filterAll();
@@ -260,6 +263,8 @@ function dataLoaded(err, rows, stations, bos, cam, som, bro){
         d3.selectAll('.btn-group .station').on('click', function(){
             var id = d3.select(this).attr('id');
             if(id=='startstation'){
+                d3.select("#startstation").attr("class", "btn btn-default station active");
+                d3.select("#endstation").attr("class", "btn btn-default station");
                 selectStation(i);
 
                 //when click button "morning", "afternoon" or "evening"
@@ -277,7 +282,8 @@ function dataLoaded(err, rows, stations, bos, cam, som, bro){
 
             }if(id=='endstation'){
                 selectStationEnd(i);
-
+                d3.select("#endstation").attr("class", "btn btn-default station active");
+                d3.select("#startstation").attr("class", "btn btn-default station");
                 //when click button "morning", "afternoon" or "evening"
                 d3.selectAll('.btn-group .time').on('click', function(){
                     var id = d3.select(this).attr('id');
@@ -342,27 +348,33 @@ function dataLoaded(err, rows, stations, bos, cam, som, bro){
     //Connect map with chart
     dispatcherStation.on('getstationid', function(id){
         console.log(id);
+         d3.selectAll('.station_dot').style('fill', 'black');
+
+         var e = document.getElementById("ddmenu");
+         var station_name = e.options[e.selectedIndex].text.replace(/\s/g, '');
+         d3.selectAll('.station_dot').select('#'+station_name).style('fill', 'red');
 
         selectStation(id);
 
         buttonClick(id);
+
+
 
     });
 
 
     //drop-down menu: choose station
     d3.select('.station').on('change',function(){
-        console.log(this);
-        var stationID = this.value;
+        
+        var e = document.getElementById("ddmenu");
+        var stationID = e.options[e.selectedIndex].value;
+        // var station_name = e.options[e.selectedIndex].text;
+        // console.log(station_name);
+        
         
 
-        d3.selectAll('.station_dot').style('fill', 'rgb(32,96,255)');
-        //d3.select('[station_num='+stationID+']').style('fill', 'orange');
-        d3.select('.station_dot').select('[station_num='+stationID+']').style('fill', 'orange');
-
-        selectStation(stationID);
-
-        buttonClick(stationID);
+        
+        dispatcherStation.getstationid(stationID);
 
 
     });
@@ -417,7 +429,7 @@ function dataLoaded(err, rows, stations, bos, cam, som, bro){
         .append('circle')
         .attr('class', 'station_dot')
         .attr('station_num', function(d) { return d.id })
-        .attr('id', function(d) { return d.fullName })
+        .attr('id', function(d) { return d.fullName.replace(/\s/g, '') })
         .attr('cx', function(d) {
             var xy = albersProjection(d.lngLat);
             return xy[0]; })
@@ -425,9 +437,9 @@ function dataLoaded(err, rows, stations, bos, cam, som, bro){
             var xy = albersProjection(d.lngLat);
             return xy[1]; })
         .attr('r', rad)
-        .style('fill', 'rgb(32,96,255)')
+        .style('fill', 'black')
         .style('stroke-width', 0)
-        .style('opacity',.9)
+        // .style('opacity',.9)
         .on('click', set_station_num)
 
 
@@ -435,22 +447,22 @@ function dataLoaded(err, rows, stations, bos, cam, som, bro){
 
     //END OF STATIONS ON MAP
 
-    svg.append('rect')
-        .attr('x', 300)
-        .attr('y', 662)
-        .attr('height', 30)
-        .attr('width', 400)
-        .style('fill', "#ffffff")
-        .style('opacity', .75)
+    // svg.append('rect')
+    //     .attr('x', 300)
+    //     .attr('y', 662)
+    //     .attr('height', 30)
+    //     .attr('width', 400)
+    //     .style('fill', "#ffffff")
+    //     .style('opacity', .75)
 
-    svg.append('text')
-        .text('Boston, Brookline, Cambridge, Sommerville')
-        .attr("font-family", "serif")
-        .attr("font-size", "20px")
-        .attr("fill", "black")
-        .attr("font-weight", "bold")
-        .attr('x', 310)
-        .attr('y', 682);
+    // svg.append('text')
+    //     .text('Boston, Brookline, Cambridge, Sommerville')
+    //     .attr("font-family", "serif")
+    //     .attr("font-size", "20px")
+    //     .attr("fill", "black")
+    //     .attr("font-weight", "bold")
+    //     .attr('x', 310)
+    //     .attr('y', 682);
 
 
 } //end of dataLoaded
@@ -468,7 +480,10 @@ function dataLoaded(err, rows, stations, bos, cam, som, bro){
 //
 
 function set_station_num (d) {
-
+    d3.select("#chart").style("opacity", 1).transition(1000);
+    d3.select("#city").style("opacity", 0).transition(1000);
+    d3.select("#startstation").attr("class", "btn btn-default station active");
+    d3.select("#endstation").attr("class", "btn btn-default station");
     var stationid = d.id;
     //console.log(stationid);
 
@@ -478,8 +493,9 @@ function set_station_num (d) {
 
     //highlight map dot
     //highlight station dot
-    d3.selectAll('.station_dot').style('fill', 'rgb(32,96,255)');
-    d3.select(this).style('fill', 'orange');
+    d3.selectAll('.station_dot').style('fill', 'black');
+    d3.select(this).style('fill', 'red');
+
 
 
 }
@@ -494,11 +510,11 @@ function set_station_num (d) {
 var sc_rad = function scaleradius () {
 
     if (zoomed == true){
-        radius = 5;
+        radius = 6;
         return radius
     }
     if (zoomed == false){
-        radius = 2;
+        radius = 6;
         return radius
     }
 
@@ -512,7 +528,7 @@ function clicked(d) {
         var centroid = geoPath.centroid(d);
         x = centroid[0];
         y = centroid[1];
-        k = 3.5;
+        k = 3;
         zoomed = true;
         centered = d;
     } else {
@@ -533,10 +549,10 @@ function clicked(d) {
         .duration(550)
         .attr('r', function() {
             if(k == 1) {return rad}
-            else { return rad*k/2 } })
+            else { return rad } })
         .attr('stroke-width', function(){
             if(k == 1) {return rad/2}
-            else { return rad*k/2 } });
+            else { return rad } });
 
 
     g.transition()
@@ -586,3 +602,7 @@ function parseStations(s){
         lngLat: [+s.lng, +s.lat]
     };
 }
+
+// function remove_spaces(r){
+//     return { r.replace(/\s/g, '')};
+// }

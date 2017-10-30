@@ -1,6 +1,4 @@
-/**
- * Created by yangmuhe on 3/23/16.
- */
+
 d3.StationChart = function(){
 
     var w = 500,
@@ -92,7 +90,7 @@ d3.StationChart = function(){
             //.attr('y', function(d,i){ return i*(barWidth + padding)+ m.t +barWidth/2;})
             .attr("dy", ".85em")
             .attr("text-anchor", "start")
-            .style('font-size', '11px')
+            .style('font-size', '12px')
             .style('font-weight', '400')
             .style('fill', 'white')
             .text(function(d){return stationNameID.get(d.key).fullName;})
@@ -114,8 +112,10 @@ d3.StationChart = function(){
             .attr('y', function(d){return scaleY(d.key) + scaleY.rangeBand()})
             .attr("dy", ".85em")
             .attr("text-anchor", "end")
-            .style('font-size', '11px')
-            .style('fill', 'rgb(80,80,80)')
+            .attr("transform", "translate("+2+"0)")
+            .style('font-size', '12px')
+            .style('fill', 'red')
+            .style('font-weight', '700')
             .text(function(d){return d.values ;})
 
         svg.select('.axis-x').transition().call(axisX);

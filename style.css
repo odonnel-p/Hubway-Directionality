@@ -1,31 +1,43 @@
 html,body{
     height: 100%;
-    position: relative;
+    /*position: relative;*/
+    font-family: 'Saira Semi Condensed', sans-serif;
+    font-weight: 400;
+    min-width: 1325px;
+}
+
+body {
+    margin-left: 40px;
 }
 
 /*-------------------Title---------------*/
-.intro_text{
-    width: 50%;
-    position: relative;
-    float:left;
-    margin: 0 0 15px 0;
-}
-
-.intro_text > h1{
-    padding-top: 5px;
-}
-
-.intro_text > *{
+.title_text {
+    width: 800px;
     position: relative;
     float: left;
+    margin: 0 0 10px 0;
 }
+
+.title_text > h1{
+    /*padding-top: 5px;*/
+}
+
+.intro_text {
+    width: 530px;
+}
+
+
+
+
 
 /*-------------------Map---------------*/
 #plot{
-    width: 65%;
-    height: 700px;
+    width: 750px;
+    height: 570px;
     position: relative;
     float:left;
+    stroke-width: 1px;
+    stroke:black;
 }
 
 .overlay {
@@ -34,17 +46,23 @@ html,body{
 }
 
 .neighborhoods {
-    stroke: #fff;
-    fill: rgb(210,210,210);
+    stroke: white;
+    fill: #eee;
     stroke-linejoin: 'round';
-    stroke-width: .5;
+    stroke-width: 1;
 }
 
 .station_dot {
-    background-color: blue;
-    stroke: darkblue;
-    stroke-width: .7;
+    background-color: white;
+    stroke: white;
+    /*stroke-width: .7;*/
 }
+
+
+
+
+
+
 
 /*.neighborhoods{*/
     /*fill: rgb(200,200,200);*/
@@ -53,9 +71,10 @@ html,body{
 /*-------------------right---------------*/
 #right{
     float:left;
-    width: 30%;
-    margin-left: 10px;
+    width: 500px;
+    margin-left: 20px;
     position:relative;
+    margin-top: -77px;
 }
 
 .author{
@@ -70,6 +89,7 @@ html,body{
     position:relative;
     margin-top: 10px;
     background-color: white;
+    opacity: 0;
 }
 
 .plot{
@@ -80,7 +100,7 @@ html,body{
     margin: 10px 0 0;
 }
     .plot .bar{
-        fill: rgb(200,200,200);
+        fill: rgb(255,0,0);
     }
 
 
@@ -94,20 +114,24 @@ html,body{
 }
 .axis text{
     font-size: 10px;
-    color: rgb(200,200,200);
+    color: black;
 }
 
 .label .label-y text{
     stroke: none;
-    font-size: 11px;
+    font-size: 10px;
     font-weight: 100;
-    color: red;
+    color: white;
 }
 
 .value .value-x text{
     stroke: none;
     font-size: 10px;
-    color: red;
+    color: black;
+}
+
+.tick line {
+    opacity: .5;
 }
 
 /*--------------drop-down + button--------------*/
@@ -133,27 +157,66 @@ html,body{
     margin-right: 3px;
 }
 
+
+
 /*--------------font--------------*/
 h1{
     font-size: 26px;
-    margin-left: 10%;
     margin-bottom: 0;
+    font-family: 'Saira Semi Condensed', sans-serif;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-top: 10px;
 }
 
 h2{
     font-size:18px;
-    margin-left: 10%;
-    margin-top: 1%;
+}
+
+.smaller {
+    font-weight: 400;
 }
 
 h3{
-    font-size: 10px;
+    font-size: 13px;
+    line-height: 150%;
+    color: black;
+}
+
+h4{
+    font-size: 13px;
     line-height: 150%;
     color: rgb(150,150,150);
-    font-family: 'Open Sans', sans-serif;
     margin-top: 0;
 }
 
 p{
-    font-size: 10px;
+    font-size: 13px;
+}
+
+h5 {
+    font-size: 13px;
+    text-align: right;
+    padding-right: 4px;
+
+}
+
+    #city {
+        font-weight: 700;
+        font-size: 18px;
+        margin-top: -28px;
+        color: black;
+        
+    }
+
+    .usability {
+        font-style: italic;
+        color: black;
+    }
+
+
+/*----------*/
+
+.hidden {
+
 }

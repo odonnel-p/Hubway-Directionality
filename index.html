@@ -9,6 +9,7 @@
   
     <!--<script src="data/boston_regions_zip_codes_rdw.json"></script>-->
     <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css"/>
+    <link href="https://fonts.googleapis.com/css?family=Saira+Semi+Condensed:400,700" rel="stylesheet">
     <link rel="stylesheet" href="style.css"/>
     <!--<link rel="stylesheet" href="css/map.css"/>-->
 
@@ -16,9 +17,11 @@
 </head>
 <body>
 	<div class="backg">
+        <div class="title_text">
+            <h1>Hubway Bike Sharing <span class='smaller'>Directionality of Trips</span></h1>
+        </div>
         <div class="intro_text">
-            <h1>HUBWAY BIKE SHARING NETWORK</h1>
-            <h2>Directionality and Frequency of Trips</h2>
+            <h3>Boston's bike share program, the Hubway, logs thousands of trips across the city each year. This interactive map explores the published data on local bike share trips for the year 2014. First, click on the station (each black dot is a bike station). Then, a bar chart will compare the amount of trips to and from that station. The general directionality of the 10 most destinations or starting stationsis plotted around the dots. </h3>
         </div>
 
         <!--<div class="titles">-->
@@ -26,34 +29,40 @@
           <!--<h4>Select Trips to Analyze</h4>-->
         <!--</div>-->
     		
-        <div id="plot"> </div>
-        <div id="right">
+        <div id="plot">
+            <svg id="svg"></svg> 
+            <h5 id="city">Metro-Boston</h5>
+            <h5 class="usability">Click any census tract to zoom in.  Click again to zoom out.  Click circle to select station.</h5>
+            </div>
+        </div>
+
+        <div id="right" >
             <!--MUHE MODULE-->
             <div id="chart">
                 <div class="drop-down">
                   <div class="select">
-                    <select class="form-control station">
+                    <select class="form-control station" id="ddmenu">
                         <option value="">Choose Station</option>
                     </select>
                   </div>
                 </div>
                 <div class="btn-group start-end">
-                    <a href="#" class="btn btn-default station" id="startstation">Start</a>
+                    <a href="#" class="btn btn-default station" id="startstation" >Start</a>
                     <a href="#" class="btn btn-default station" id="endstation">End</a>
                 </div>
                 <div class="plot"></div>
-                <div class="btn-group time-of-day">
+                <!-- <div class="btn-group time-of-day">
                     <a href="#" class="btn btn-default time" id="morning">Morning</a>
                     <a href="#" class="btn btn-default time" id="afternoon">Afternoon</a>
                     <a href="#" class="btn btn-default time" id="evening">Evening</a>
-                </div>
+                </div> -->
             </div>
 
 
         </div>
-        <div class="author">
-            <h3>Patrick J. O'Donnel and Muhe Yang<br>Information Design and Visualization<br>NEU 2016 Spring</h3>
-        </div>
+       <!--  <div class="author">
+            <h4>Patrick J. O'Donnel and Muhe Yang<br>Information Design and Visualization<br>NEU 2016 Spring</h3>
+        </div> -->
 
 
         <script src="//d3js.org/d3.v3.min.js" charset="utf-8"></script>
