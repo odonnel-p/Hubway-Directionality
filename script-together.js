@@ -351,7 +351,7 @@ function dataLoaded(err, rows, stations, bos, cam, som, bro){
          d3.selectAll('.station_dot').style('fill', 'black');
 
          var e = document.getElementById("ddmenu");
-         var station_name = e.options[e.selectedIndex].text.replace(/[\s.\\0-9]/g, '');
+         var station_name = e.options[e.selectedIndex].text.replace(/[0-9]/g, '');
          d3.selectAll('.station_dot').select('#'+station_name).style('fill', 'red');
 
         selectStation(id);
@@ -430,7 +430,7 @@ function dataLoaded(err, rows, stations, bos, cam, som, bro){
         .attr('class', 'station_dot')
         .attr('station_num', function(d) { return d.id })
         .attr('id', function(d) { 
-            var d2 = d.fullName.replace(/[\s.\\0-9]/g, '');
+            var d2 = d.fullName.replace(/[0-9]/g, '');
             return d2 })
         .attr('cx', function(d) {
             var xy = albersProjection(d.lngLat);
