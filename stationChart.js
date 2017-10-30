@@ -41,7 +41,7 @@ d3.StationChart = function(){
 
         var maxX = d3.max(array, function(d){return d.values;});
 
-        scaleX.domain([0, maxX]).range([0, chartW-10]);
+        scaleX.domain([0, maxX]).range([0, chartW-50]);
         scaleY.domain(array.map(function(d){return d.key}))  //d3.map!!
             .rangeRoundBands([0,chartH], 0.2);  //actually control the padding and barWidth
 

@@ -103,10 +103,6 @@ body {
         fill: rgb(255,0,0);
     }
 
-#svg {
-    padding-right: 10px;
-}
-
 .axis .domain{
     display:none;
 }
