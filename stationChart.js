@@ -1,7 +1,7 @@
 
 d3.StationChart = function(){
 
-    var w = 480,
+    var w = 500,
         h = 300,
         m = {t:0, r:0, b:0, l:0},
         chartW = w - m.l - m.r,
@@ -41,7 +41,7 @@ d3.StationChart = function(){
 
         var maxX = d3.max(array, function(d){return d.values;});
 
-        scaleX.domain([0, maxX]).range([0, chartW]);
+        scaleX.domain([0, maxX]).range([0, chartW-10]);
         scaleY.domain(array.map(function(d){return d.key}))  //d3.map!!
             .rangeRoundBands([0,chartH], 0.2);  //actually control the padding and barWidth
 
