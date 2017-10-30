@@ -26,7 +26,7 @@ d3.StationChart = function(){
     function draw (array){
 
         var svg = d3.select(this).selectAll('svg').data([array]);  //"this" is plot
-        var svgEnter = svg.enter().append('svg').attr('width',w).attr('height',h).style("padding-right", "50px");
+        var svgEnter = svg.enter().append('svg').attr('width',w).attr('height',h).style("padding-right", "120px");
 
         svgEnter.append('g').attr('transform','translate('+ m.l+','+ m.t+')')
             .attr('class','chart');
