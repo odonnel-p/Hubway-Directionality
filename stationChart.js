@@ -1,7 +1,7 @@
 
 d3.StationChart = function(){
 
-    var w = 500,
+    var w = 480,
         h = 300,
         m = {t:0, r:0, b:0, l:0},
         chartW = w - m.l - m.r,
